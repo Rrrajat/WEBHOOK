@@ -13,6 +13,11 @@ if($method == 'POST')
     $respone->displayText=$speech;
     $respone->source="webhook";
     echo json_encode($respone);
+$fp = fopen('results.json', 'w');
+fwrite($fp, json_encode($response));
+fclose($fp);
+
+
 }
 
 else {
