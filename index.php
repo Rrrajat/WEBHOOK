@@ -17,16 +17,7 @@ if($method == 'POST')
 
 else {
     echo "Method not allowed";
-    
-    $requestBody = file_get_contents('php://input');
-    $json = json_decode($requestBody);
-    $text = $json->result->fulfillment->speech;
-    $speech=$text;
-    $respone=new \stdClass();
-    $respone->speech = $speech;
-    $respone->displayText=$speech;
-    $respone->source="webhook";
-    echo json_encode($respone);
+
 }
 ?>
 
