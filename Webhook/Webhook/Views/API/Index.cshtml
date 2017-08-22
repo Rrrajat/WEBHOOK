@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+ 
+   @foreach (var item in ViewBag.result)
+   {
+       //@item.FileName //instead .FileName use property which you have used in your model class
+       @item;
+   }
