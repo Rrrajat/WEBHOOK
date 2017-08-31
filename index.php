@@ -38,8 +38,9 @@ if($method == 'POST')
     return Response::json([
                     'speech'   => $result->speech,
                     'displayText' => $result->displayText,
-                    'source' => $result->source,
-                    ], 200);
+                    data:{},
+                    contextOut:[],
+                    source:"webhook");
 					
 }
 else
