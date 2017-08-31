@@ -37,7 +37,9 @@ if($method == 'POST')
     return Response::json([
                     'speech'   => $result->speech,
                     'displayText' => $result->displayText,
-                    'source' => $result->source
+                    'source' => $result->source,
+                    'data' => [],
+                    'contextOut' => [],
             ], 200);
     
 }
