@@ -33,6 +33,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
+    $result = json_encode($result);
     return $result;
     
 }
