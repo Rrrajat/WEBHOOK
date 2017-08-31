@@ -17,7 +17,7 @@ if($method == 'POST')
         return "" ;
     }
     $encoded_query = encodeURIComponent($query);
-    $encoded_query = $api_url + $encoded_query + "&format=json";
+    $encoded_query = $api_url . $encoded_query . "&format=json";
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $encoded_query);
     $response = curl_exec($curl);
@@ -33,11 +33,12 @@ else
 function create_query($json)
 {
     $city = $json->result->parameters->geo-city;
-    if($city = "")
+    if($city == "")
     {
         return "" ;
     }
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')";
+    $city = "\"$city\"";
+    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text = $city)";
 }
 function encodeURIComponent($str) {
     $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
