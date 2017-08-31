@@ -88,7 +88,7 @@ function  makeWebhook($json_response)
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
-    $api_res = array("speech" => $speech, "displayText" => $speech);
+    $api_res = array("speech" => $speech, "displayText" => $speech, "source" => "sample-webhook");
     return json_encode($api_res);
     
 }
