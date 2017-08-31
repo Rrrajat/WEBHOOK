@@ -10,7 +10,7 @@ if($method == 'POST')
         return "";
     }
     
-    $api_url = "https://query.yahooapis.com/v1/public/yql?";
+    $api_url = "https://query.yahooapis.com/v1/public/yql?q=";
     $query = create_query($json);
     if($query == "")
     {
@@ -33,16 +33,13 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    $result = json_decode(makeWebhook($response));
+    $result = json_decode($result);
     return Response::json([
                     'speech'   => $result->speech,
                     'displayText' => $result->displayText,
                     'source' => $result->source,
-                    'data' => [],
-                    'contextOut' => [],
-            ], 200);
-    
-}
+                    ], 200);
+
 function create_query($json)
 {
     $city = $json->result->parameters->geo-city;
@@ -57,7 +54,6 @@ function encodeURIComponent($str) {
     $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
     return strtr(rawurlencode($str), $revert);
 }
-
 function  makeWebhook($json_response)
 {
     $json_response = json_decode($json_response);
@@ -76,7 +72,7 @@ function  makeWebhook($json_response)
     {
         return "";
     }
-    $unit =  $json_response->query->results->channel->unit;
+    $unit =  $json_response->query->results->channel->units;
     $location = $json_response->query->results->channel->location;
     $item = $json_response->query->results->channel->item;
     
