@@ -1,3 +1,4 @@
+
 <?php
 $method = $_SERVER['REQUEST_METHOD'];
 if($method == 'POST')
@@ -39,7 +40,12 @@ if($method == 'POST')
                     'displayText' => $result->displayText,
                     'source' => $result->source,
                     ], 200);
-
+					
+}
+else
+{
+	echo "Method not allowed";
+}
 function create_query($json)
 {
     $city = $json->result->parameters->geo-city;
@@ -88,7 +94,7 @@ function  makeWebhook($json_response)
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
-    $api_res = array("speech" => $speech, "displayText" => $speech, "source" => "sample-webhook");
+    $api_res = array("speech" => $speech, "displayText" => $speech);
     return json_encode($api_res);
     
 }
