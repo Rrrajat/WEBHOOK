@@ -33,8 +33,12 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    $result = json_encode($result);
-    return $result;
+    $result = json_decode(makeWebhook($response));
+    return Response::json([
+                    'speech'   => $result->speech,
+                    'displayText' => $result->displayText,
+                    'source' => $result->source
+            ], 200);
     
 }
 function create_query($json)
