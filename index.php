@@ -34,7 +34,6 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    $result = json_decode($result);
     return $result;
 					
 }
@@ -90,7 +89,7 @@ function  makeWebhook($json_response)
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
-    $api_res = array("speech" => $speech, "displayText" => $speech);
+    $api_res = array("speech" => $speech, "displayText" => $speech, "source" => "webhook");
     return json_encode($api_res);
     
 }
