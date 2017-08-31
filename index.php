@@ -36,8 +36,8 @@ if($method == 'POST')
     $result = makeWebhook($response);
     $result = json_decode($result);
     return Response::json([
-                    'speech'   => $result->speech,
-                    'displayText' => $result->displayText,
+                    speech:$result->speech,
+                    displayText:$result->displayText,
                     data:{},
                     contextOut:[],
                     source:"webhook");
