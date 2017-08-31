@@ -34,6 +34,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
+    header('Cache-Control: no-cache, must-revalidate');
     header('Content-Type: application/json');
     echo $result;
     
