@@ -18,17 +18,23 @@ if($method == 'POST')
     }
     $encoded_query = encodeURIComponent($query);
     $encoded_query = $api_url . $encoded_query . "&format=json";
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $encoded_query);
+    $options = array(
+        CURLOPT_RETURNTRANSFER => true,   // return web page
+        CURLOPT_HEADER         => false,  // don't return headers
+        CURLOPT_FOLLOWLOCATION => true,   // follow redirects
+        CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
+        CURLOPT_ENCODING       => "",     // handle compressed
+        CURLOPT_USERAGENT      => "test", // name of client
+        CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
+        CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
+        CURLOPT_TIMEOUT        => 120,    // time-out on response
+    );
+    $curl = curl_init($encoded_query);
+    curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
-    $json_response = json_encode($response);
-    $result = makeWebhook($json_response);
+    $result = makeWebhook($response);
     return $result;
     
-}
-else
-{
-    echo "Not allowed";
 }
 function create_query($json)
 {
@@ -47,6 +53,7 @@ function encodeURIComponent($str) {
 
 function  makeWebhook($json_response)
 {
+    $json_response = json_decode($json_response);
     $query = $json_response->query;
     if($query == "")
     {
