@@ -35,7 +35,7 @@ if($method == 'POST')
     $response = curl_exec($curl);
     $result = makeWebhook($response);
     header('Content-Type: application/json');
-    return $result;
+    echo $result;
     
 					
 }
