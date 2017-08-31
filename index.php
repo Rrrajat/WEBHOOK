@@ -26,6 +26,10 @@ if($method == 'POST')
     return $result;
     
 }
+else
+{
+    echo "Not allowed";
+}
 function create_query($json)
 {
     $city = $json->result->parameters->geo-city;
