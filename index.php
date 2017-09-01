@@ -33,12 +33,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    header('Cache-Control: no-cache, must-revalidate');
-    header('Content-Type: application/json');
-    var_dump(headers_list());
-    return Response::$result;
-    
-					
+    sendMessage($result);
 }
 else
 {
@@ -92,8 +87,17 @@ function  makeWebhook($json_response)
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
-    $api_res = array("speech" => $speech, "displayText" => $speech, "contextOut" => [], "data" => [], "source" => "webhook" );
-    return json_encode($api_res);
+    $api_res = array(
+        "speech" => "Here are the results : None.Please say Detail Placename for more details of a place.",
+                "displayText" => "Hello Google",
+                "contextOut" => [],
+                "source" => "agent" );
+    return $api_res;
     
+}
+
+function sendMessage($parameters) {
+    	header('Content-Type: application/json');
+        	echo json_encode($parameters);
 }
 ?>
