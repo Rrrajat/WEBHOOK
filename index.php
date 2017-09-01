@@ -7,16 +7,14 @@ if($method == 'POST')
     $action=$json->result->action;
     if($action != "yahooWeatherForecast")
     {
-        $api_res = array("speech" => "", "displayText" => "action", "source" => "");
-        return json_encode($api_res);
+        return "";
     }
     
     $api_url = "https://query.yahooapis.com/v1/public/yql?q=";
     $query = create_query($json);
     if($query == "")
     {
-        $api_res = array("speech" => "", "displayText" => "query", "source" => "");
-        return json_encode($api_res);
+        return "" ;
     }
     $encoded_query = encodeURIComponent($query);
     $encoded_query = $api_url . $encoded_query . "&format=json";
@@ -35,6 +33,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
+    header('Cache-Control: no-cache, must-revalidate');
     header('Content-Type: application/json');
     var_dump(headers_list());
     return Response::$result;
@@ -50,8 +49,7 @@ function create_query($json)
     $city = $json->result->parameters->geo-city;
     if($city == "")
     {
-        $api_res = array("speech" => "", "displayText" => "city", "source" => "");
-        return Response::json_encode($api_res);
+        return "" ;
     }
     $city = "\"$city\"";
     return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text = $city)";
@@ -66,20 +64,17 @@ function  makeWebhook($json_response)
     $query = $json_response->query;
     if($query == "")
     {
-        $api_res = array("speech" => "", "displayText" => "query2", "source" => "");
-        return Response::json_encode($api_res);
+        return "";
     }
     $results = $json_response->query->results;
     if($results == "")
     {
-        $api_res = array("speech" => "", "displayText" => "results", "source" => "");
-        return Response::json_encode($api_res);
+        return "";
     }
     $channel = $json_response->query->results->channel;
     if($channel == "")
     {
-        $api_res = array("speech" => "", "displayText" => "channel", "source" => "");
-        return Response::json_encode($api_res);
+        return "";
     }
     $unit =  $json_response->query->results->channel->units;
     $location = $json_response->query->results->channel->location;
@@ -87,15 +82,13 @@ function  makeWebhook($json_response)
     
     if($unit == "" || $location == "" || $item=="")
     {
-        $api_res = array("speech" => "", "displayText" => "unit", "source" => "");
-        return Response::json_encode($api_res);
+        return "";
     }
     
     $condition = $json_response->query->results->channel->item->condition;
     if($condition == "")
     {
-        $api_res = array("speech" => "", "displayText" => "condition", "source" => "");
-        return Response::json_encode($api_res);
+        return "";
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
