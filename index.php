@@ -36,7 +36,8 @@ if($method == 'POST')
     $result = makeWebhook($response);
     header('Cache-Control: no-cache, must-revalidate');
     header('Content-Type: application/json');
-    echo $result;
+    var_dump(headers_list());
+    return Response::$result;
     
 					
 }
@@ -92,7 +93,7 @@ function  makeWebhook($json_response)
     }
     $speech = $json_response->query->results->channel->item->condition->temp;
     
-    $api_res = array("speech" => $speech, "displayText" => $speech, "source" => "webhook");
+    $api_res = array("speech" => $speech, "displayText" => $speech, "data" =>[], "source" => "webhook");
     return json_encode($api_res);
     
 }
