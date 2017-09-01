@@ -88,8 +88,8 @@ function  makeWebhook($json_response)
     $speech = $json_response->query->results->channel->item->condition->temp;
     
     $api_res = array(
-        "speech" => "Here are the results : None.Please say Detail Placename for more details of a place.",
-                "displayText" => "Hello Google",
+        "speech" => $speech,
+                "displayText" => $speech,
                 "contextOut" => [],
                 "source" => "agent" );
     return $api_res;
@@ -98,6 +98,6 @@ function  makeWebhook($json_response)
 
 function sendMessage($parameters) {
     	header('Content-Type: application/json');
-        	echo json_encode($parameters);
+        	return json_encode($parameters);
 }
 ?>
