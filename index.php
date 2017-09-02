@@ -33,7 +33,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    return sendMessage($result);
+    echo sendMessage($result);
 }
 else
 {
@@ -98,7 +98,7 @@ function  makeWebhook($json_response)
 }
 
 function sendMessage($parameters) {
-    	header('Content-Type: application/json');
-        	return json_encode($parameters);
+    	header("Content-type: application/json");
+        	echo json_encode($parameters);
 }
 ?>
