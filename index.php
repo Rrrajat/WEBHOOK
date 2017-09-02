@@ -41,7 +41,8 @@ else
 }
 function create_query($json)
 {
-    $city = $json->result->parameters->geo-city;
+    $geocity="geo-city";
+    $city = $json->result->parameters->$geocity;
     if($city == "")
     {
        $api_res = array(
