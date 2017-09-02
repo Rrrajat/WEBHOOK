@@ -44,7 +44,13 @@ function create_query($json)
     $city = $json->result->parameters->geo-city;
     if($city == "")
     {
-        return "" ;
+       $api_res = array(
+        "speech" => "query",
+                "displayText" => "query",
+                "data" => new ArrayObject(),
+                "contextOut" => [],
+                "source" => "agent" );
+        return json_encode($api_res);
     }
     $city = "\"$city\"";
     return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text = $city)";
@@ -59,17 +65,35 @@ function  makeWebhook($json_response)
     $query = $json_response->query;
     if($query == "")
     {
-        return "";
+         $api_res = array(
+        "speech" => "query null",
+                "displayText" => "query null",
+                "data" => new ArrayObject(),
+                "contextOut" => [],
+                "source" => "agent" );
+        return json_encode($api_res);
     }
     $results = $json_response->query->results;
     if($results == "")
     {
-        return "";
+        $api_res = array(
+        "speech" => "result null",
+                "displayText" => "result null",
+                "data" => new ArrayObject(),
+                "contextOut" => [],
+                "source" => "agent" );
+        return json_encode($api_res);
     }
     $channel = $json_response->query->results->channel;
     if($channel == "")
     {
-        return "";
+        $api_res = array(
+        "speech" => "result channel",
+                "displayText" => "result channel",
+                "data" => new ArrayObject(),
+                "contextOut" => [],
+                "source" => "agent" );
+        return json_encode($api_res);
     }
     $unit =  $json_response->query->results->channel->units;
     $location = $json_response->query->results->channel->location;
