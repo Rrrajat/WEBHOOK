@@ -33,7 +33,7 @@ if($method == 'POST')
     curl_setopt_array($curl, $options);
     $response = curl_exec($curl);
     $result = makeWebhook($response);
-    sendMessage($result);
+    return sendMessage($result);
 }
 else
 {
@@ -90,6 +90,7 @@ function  makeWebhook($json_response)
     $api_res = array(
         "speech" => $speech,
                 "displayText" => $speech,
+	    	"data" => new ArrayObject(),
                 "contextOut" => [],
                 "source" => "agent" );
     return $api_res;
