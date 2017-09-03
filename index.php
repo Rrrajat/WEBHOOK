@@ -62,6 +62,7 @@ function encodeURIComponent($str) {
 }
 function  makeWebhook($json_response)
 {
+    {
     $json_response = json_decode($json_response);
     $query = $json_response->query;
     if($query == "")
@@ -97,20 +98,31 @@ function  makeWebhook($json_response)
         return json_encode($api_res);
     }
     $unit =  $json_response->query->results->channel->units;
-    $location = $json_response->query->results->channel->location;
+    $location = $json_response->query->results->channel->location->city;
     $item = $json_response->query->results->channel->item;
-    
+    $wind_speed = $json_response->query->results->channel->wind->speed;
     if($unit == "" || $location == "" || $item=="")
     {
         return "";
     }
     
+    if($unit != "")
+    {
+        $temp_unit = $json_response->query->results->channel->units->temperature;
+        $speed_unit = $json_response->query->results->channel->units->speed;
+    }
     $condition = $json_response->query->results->channel->item->condition;
     if($condition == "")
     {
         return "";
     }
-    $speech = $json_response->query->results->channel->item->condition->temp;
+    $temp = $json_response->query->results->channel->item->condition->temp;
+    if($temp_unit=="F" and $temp!= "")
+    {
+        $temp = ($temp-32)*0.556;
+        $temp_unit = "C";
+    }
+    $speech = "Today in $location, temperature is $temp degree $temp_unit.\n Wind speed -: $wind_speed $speed_unit.";
     
     $api_res = array(
         "speech" => $speech,
@@ -119,6 +131,8 @@ function  makeWebhook($json_response)
                 "contextOut" => [],
                 "source" => "agent" );
     return $api_res;
+    
+}
     
 }
 
