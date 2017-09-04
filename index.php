@@ -122,7 +122,7 @@ function  makeWebhook($json_response)
         $temp = ($temp-32)*0.556;
         $temp_unit = "C";
     }
-    $speech = "Today in $location, temperature is $temp degree $temp_unit.<br/> Wind speed -: $wind_speed $speed_unit.";
+    $speech = "Today in $location, temperature is $temp $temp_unit.<br/> Wind speed -: $wind_speed $speed_unit.";
     
     $api_res = array(
         "speech" => $speech,
