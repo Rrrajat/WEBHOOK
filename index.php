@@ -111,7 +111,7 @@ function  makeWebhook($json_response)
         $temp_unit = $json_response->query->results->channel->units->temperature;
         $speed_unit = $json_response->query->results->channel->units->speed;
     }
-    $condition = $json_response->query->results->channel->item->condition;
+    $condition = $json_response->query->results->channel->item->condition->text;
     if($condition == "")
     {
         return "";
@@ -122,7 +122,7 @@ function  makeWebhook($json_response)
         $temp = ($temp-32)*0.556;
         $temp_unit = "C";
     }
-    $speech = "Today in $location, temperature is $temp $temp_unit.<br/> Wind speed -: $wind_speed $speed_unit.";
+    $speech = "Today in $location, temperature is $temp $temp_unit and $condition.<br/> Wind speed -: $wind_speed $speed_unit.";
     
     $api_res = array(
         "speech" => $speech,
